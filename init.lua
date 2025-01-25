@@ -157,6 +157,12 @@ vim.opt.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
+-- added by me
+vim.opt.wrap = true -- Enable word wrapping
+vim.opt.linebreak = true -- Break lines at word boundaries, not in the middle of words
+
+vim.opt.rtp:prepend '/Users/joanne/.opam/default/share/ocp-indent/vim'
+
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
@@ -189,6 +195,13 @@ vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left wind
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+
+-- added by me
+-- so I can read the whole diagnostic message
+-- l for lsp or light bulb provided by lsp
+vim.keymap.set('n', '<leader>l', vim.diagnostic.open_float, { desc = 'Show diagnostics' })
+vim.keymap.set('n', '[l', vim.diagnostic.goto_prev, { desc = 'Previous diagnostic' })
+vim.keymap.set('n', ']l', vim.diagnostic.goto_next, { desc = 'Next diagnostic' })
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
@@ -647,6 +660,11 @@ require('lazy').setup({
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
+        'marksman',
+        'json-lsp',
+        'html-lsp',
+        'css-lsp',
+        'markdownlint',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -835,6 +853,8 @@ require('lazy').setup({
       -- Load the colorscheme here.
       -- Like many other themes, this one has different styles, and you could load
       -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
+      -- vim.cmd.colorscheme 'minischeme'
+
       vim.cmd.colorscheme 'minischeme'
 
       -- You can configure highlights by doing something like:
@@ -896,9 +916,9 @@ require('lazy').setup({
         -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
         --  If you are experiencing weird indenting issues, add the language to
         --  the list of additional_vim_regex_highlighting and disabled languages for indent.
-        additional_vim_regex_highlighting = { 'ruby' },
+        additional_vim_regex_highlighting = { 'ruby', 'markdown' },
       },
-      indent = { enable = true, disable = { 'ruby' } },
+      indent = { enable = true, disable = { 'ruby', 'markdown' } },
     },
     -- There are additional nvim-treesitter modules that you can use to interact
     -- with nvim-treesitter. You should go explore a few and see what interests you:
